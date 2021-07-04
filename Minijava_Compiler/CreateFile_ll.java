@@ -10,10 +10,7 @@ public class CreateFile_ll {
     // Start with the first information for the .ll files
     CreateFile_ll(String fileName, SymbolTable st, Map<String, LinkedList<String>> regs) throws IOException {
         this.st = st;
-        // Create file ll
         this.file_ll = new FileWriter(fileName + ".ll");
-//        this. Create_VTables(regs);
-//        this.Insert_info();
     }
 
     Map<String, LinkedList<String>> Create_VTables() throws IOException {
@@ -33,9 +30,6 @@ public class CreateFile_ll {
                 indexClass++;
                 continue;
             }
-
-//            @.BT_vtable = global [1 x i8*] [i8* bitcast (i32 (i8*)* @BT.Start to i8*)]
-//            int numOfMethods = classInfo.methods.size();
 
             int numOfMethods;
             numOfMethods = classInfo.methods.size();
@@ -93,7 +87,6 @@ public class CreateFile_ll {
 
 
     void Insert_info() throws IOException {
-//        System.out.println("Insert some standard informations");
 
         emit("declare i8* @calloc(i32, i32)\n" +
                 "declare i32 @printf(i8*, ...)\n" +
@@ -159,7 +152,7 @@ public class CreateFile_ll {
     
 }
 
-// We will use that to sort methods and emit methods for class according to the offsets 
+// We will use that to sort methods - emit methods for class according to the offsets 
 class AccordingOffset implements Comparator<Keys> {
     @Override
     public int compare(Keys s1, Keys s2) {

@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.*;
 
 
-//https://youtu.be/8GNv2PME6xM?t=4232   //Vtable
 
 public class LLVM_Visitor extends GJDepthFirst<String, String> {
     public SymbolTable st;
@@ -31,7 +30,7 @@ public class LLVM_Visitor extends GJDepthFirst<String, String> {
 
     LLVM_Visitor(String fileName, SymbolTable st) throws IOException {
         this.st = st;
-        // Create .ll file and insert the first information
+        // Create .ll file and insert the first informations
         CreateFile_ll creator = new CreateFile_ll(fileName, st, regs);
         regs = creator.Create_VTables();
         creator.Insert_info();
@@ -204,12 +203,12 @@ public class LLVM_Visitor extends GJDepthFirst<String, String> {
             emit("\tstore " + argType + " %." + arg + ", " + argType + "* " + "%" + arg + "\n");
 
             LinkedList<String> reg_list = regs.get(curr_scope);
-            reg_list.add("%" + arg);        // do we need that???
+            reg_list.add("%" + arg);       
         }
 
         n.f7.accept(this, argu);       
 
-        n.f8.accept(this, argu);    //implement assignment-statement,
+        n.f8.accept(this, argu);   
 
         String ret = n.f10.accept(this, "Expr");
         emit("\tret " + methType + " " + ret + "\n");
@@ -346,7 +345,6 @@ public class LLVM_Visitor extends GJDepthFirst<String, String> {
      * f6 -> ";"
      */
     public String visit(ArrayAssignmentStatement n, String argu) throws Exception {
-        // emit("\t;%%%%%%%%%%% ArrayAssignmentStatement called %%%%%%%%%%%\n");
         
         String id = n.f0.accept(this, argu);
         String expr1, expr2;
@@ -374,9 +372,6 @@ public class LLVM_Visitor extends GJDepthFirst<String, String> {
 
         expr2 = n.f5.accept(this, "Expr"); 
         
-        
-        // emit("\t%_" + register + " = icmp sge i32 " + expr1 + ", 0" + "\n\n");
-        // register++;
         
         emit("\t%_" + register + " = icmp slt i32 " + expr1 + ", %_" + size + "\n");
         emit("\tbr i1 %_" + register + ", label %oob_" + oob1 + ", label %oob_" + oob3 + "\n\n");
@@ -440,16 +435,9 @@ public class LLVM_Visitor extends GJDepthFirst<String, String> {
         size = String.valueOf(register); 
         register++;
 
-
-        // emit("\t%_" + register + " = icmp sge i32 " + expr2 + ", 0\n");
-        // register++;
-
         emit("\t%_" + register + " = icmp slt i32 " + expr2 + ", %_" + size + "\n");
         register++;
 
-        // emit("\t%_" + register + " = and i1 %_" + (register-2) + ", %_" + (register-1) + "\n\n");
-        
-        
         emit("\tbr i1 %_" + (register-1) + ", label %oob_" + oob + ", label %oob_" + (oob+1) + "\n\n");
         
         emit("oob_" + oob + ":\n");
@@ -732,8 +720,7 @@ public class LLVM_Visitor extends GJDepthFirst<String, String> {
      * f3 -> ")"
     */
     public String visit(AllocationExpression n, String argu) throws Exception {
-        // emit("\n;-------------- AllocationExpression called -----------------\n");
-        
+
         //with null we get only the identifier
         String id = n.f1.accept(this, null);
         ClassInfo clas = st.classes.get(id);
@@ -757,7 +744,6 @@ public class LLVM_Visitor extends GJDepthFirst<String, String> {
         emit("\tstore i8** %_" + (register) + ", i8*** %_" + (register-1) + "\n");
         register++;
 
-        // emit("\n;-------------- End of AllocationExpression send " + "%_" + (register-3) + " " + id + " -----------------\n");
 
         return "%_" + (register-3) + " " + id;
     }
@@ -816,11 +802,6 @@ public class LLVM_Visitor extends GJDepthFirst<String, String> {
             type = saveType;
         }
         
-        
-        // emit(";meth: " + id + "\n");
-        // emit(";class: " + type + "\n");
-        // emit(";type: " + type + "\n");
-
         PrimaryType = type;
         
         ClassInfo clas = st.classes.get(type);
@@ -935,8 +916,6 @@ public class LLVM_Visitor extends GJDepthFirst<String, String> {
         type = convertType(met.argumentsTypes.get(index++));
 
         this.args.add(type + " " + arg);
-        // String type = convertType(saveType);
-
         return  null;
     }
 

@@ -48,10 +48,6 @@ public class Visitor2_TypeCheck extends GJDepthFirst <String, String> {
      */
     public String visit (MainClass n, String argu) throws Exception {
 
-        //insert all variables/methods from parent to children
-        //(note: no duplicate methods, save them as a pointer to Object-Method)
-//        st.normalizeClasses();
-
         String class_main = n.f1.accept(this, argu);
         curr_class = class_main;
         String meth_main = n.f6.tokenImage;

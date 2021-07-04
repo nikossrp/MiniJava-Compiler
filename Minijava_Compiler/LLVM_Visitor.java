@@ -38,7 +38,7 @@ public class LLVM_Visitor extends GJDepthFirst<String, String> {
         
         args = new ArrayList<>();
         saveType = "noType";
-        oob = 3;
+        oob = 0;
         andClause = 0;
     }
 
@@ -966,7 +966,7 @@ public class LLVM_Visitor extends GJDepthFirst<String, String> {
         ClassInfo clas = st.classes.get(curr_class);
         Method meth = clas.getMethod(curr_meth);
         if (meth != null) {
-            //if we want to access a field of the class
+            //if we want to access a field of the class, we check offset
             offset = meth.getOffsetVar(id);
             type = meth.getVarType(id);
             

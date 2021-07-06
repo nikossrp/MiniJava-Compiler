@@ -37,7 +37,6 @@ public class Main {
                 //(note: no duplicate methods, save them as a pointer to Object-Method)
                 eval.symbolTable.normalizeClasses();
                 
-                //no need for the 3th part
                 Visitor2_TypeCheck eval2 = new Visitor2_TypeCheck(eval.symbolTable);
                 root.accept(eval2, null);
                 
